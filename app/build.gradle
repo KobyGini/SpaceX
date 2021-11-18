@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha01'
     def roomVersion = '2.4.0-alpha04'
     def okhttpLoggingInterceptorVersion = '4.7.2'
     def navigationComponent  = '2.4.0-alpha01'
@@ -80,6 +81,7 @@ dependencies {
 
 
     //Lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 

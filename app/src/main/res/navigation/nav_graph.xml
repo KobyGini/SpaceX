@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/launchListFragment">
 
     <fragment
         android:id="@+id/launchListFragment"
         android:name="com.example.spacex.ui.launcheslist.LaunchListFragment"
-        android:label="LaunchListFragment" >
+        android:label="@string/menu_launches">
         <action
             android:id="@+id/action_launchListFragment_to_launchDetailsFragment"
             app:destination="@id/launchDetailsFragment" />
