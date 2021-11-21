@@ -51,7 +51,7 @@ class ShipRemoteMediator(
                 //clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
                     spaceXDatabase.shipsKeysDao().clearLaunchesKeys()
-                    spaceXDatabase.shipDao().deleteShip()
+                    spaceXDatabase.shipDao().deleteAllShip()
                 }
 
                 val prevKey = null

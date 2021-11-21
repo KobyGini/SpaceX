@@ -14,7 +14,7 @@ interface ShipDao {
     suspend fun insertAll(ships: List<Ship>): LongArray
 
     @Query("DELETE FROM ships_table")
-    suspend fun deleteShip()
+    suspend fun deleteAllShip()
 
     @Query("SELECT * FROM ships_table")
     fun getShipList() : PagingSource<Int, Ship>
