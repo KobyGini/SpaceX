@@ -9,7 +9,7 @@
             android:icon="@drawable/ic_launch_rocket"
             android:title="@string/menu_launches" />
         <item
-            android:id="@+id/shipsListFragment"
+            android:id="@+id/shipListFragment"
             android:icon="@drawable/ic_baseline_ship"
             android:title="@string/menu_ships" />
     </group>

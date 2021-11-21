@@ -21,4 +21,20 @@
             android:name="launchId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/shipListFragment"
+        android:name="com.example.spacex.ui.shiplist.ShipListFragment"
+        android:label="@string/menu_ships" >
+        <action
+            android:id="@+id/action_shipListFragment_to_shipDetailsFragment"
+            app:destination="@id/shipDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shipDetailsFragment"
+        android:name="com.example.spacex.ui.shipdetails.ShipDetailsFragment"
+        android:label="ShipDetailsFragment" >
+        <argument
+            android:name="shipId"
+            app:argType="string" />
+    </fragment>
 </navigation>

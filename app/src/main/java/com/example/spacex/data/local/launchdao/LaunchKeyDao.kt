@@ -1,10 +1,9 @@
-package com.example.spacex.data.local
+package com.example.spacex.data.local.launchdao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.spacex.model.LaunchKey
 
 @Dao
 interface LaunchKeyDao {

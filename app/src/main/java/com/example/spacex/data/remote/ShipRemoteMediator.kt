@@ -7,16 +7,16 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.bumptech.glide.load.HttpException
 import com.example.spacex.data.local.SpaceXDb
-import com.example.spacex.model.Launch
 import com.example.spacex.data.local.launchdao.LaunchKey
+import com.example.spacex.model.Ship
 import com.example.spacex.util.Mapper
 import java.io.IOException
 
 @ExperimentalPagingApi
-class LaunchRemoteMediator(
+class ShipRemoteMediator(
     private val spaceXService: SpaceXService,
     private val spaceXDatabase: SpaceXDb
-) : RemoteMediator<Int, Launch>() {
+) : RemoteMediator<Int, Ship>() {
 
     override suspend fun initialize(): InitializeAction {
         // Require that remote REFRESH is launched on initial load and succeeds before launching
@@ -24,10 +24,8 @@ class LaunchRemoteMediator(
         return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
 
-    override suspend fun load(
-        loadType: LoadType, state: PagingState<Int, Launch>
-    ): MediatorResult {
 
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, Ship>): MediatorResult {
         //Get page number
         val page = when (loadType) {
             LoadType.REFRESH -> {
@@ -38,7 +36,6 @@ class LaunchRemoteMediator(
             }
             LoadType.APPEND -> {
                 val remoteKeys = getRemoteKeyForLastItem(state)
-                println(remoteKeys)
                 if (remoteKeys?.nextKey == null){
                     return MediatorResult.Success(endOfPaginationReached = true)
                 }
@@ -47,14 +44,14 @@ class LaunchRemoteMediator(
         }
 
         try {
-            val response = spaceXService.getSpaceXLaunched()
+            val response = spaceXService.getSpaceXShips()
 
             val isEndOfList = true
             spaceXDatabase.withTransaction {
                 //clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
-                    spaceXDatabase.launchedKeysDao().clearLaunchesKeys()
-                    spaceXDatabase.launchedDao().deleteLaunches()
+                    spaceXDatabase.shipsKeysDao().clearLaunchesKeys()
+                    spaceXDatabase.shipDao().deleteShip()
                 }
 
                 val prevKey = null
@@ -63,12 +60,12 @@ class LaunchRemoteMediator(
                     LaunchKey(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
 
-                val launchModelList = response.map {
-                   Mapper.launchResponseToLaunchModel(it)
+                val shipModelList = response.map {
+                    Mapper.shipsResponseToShipsModel(it)
                 }
 
-                spaceXDatabase.launchedKeysDao().insertAll(keys)
-                spaceXDatabase.launchedDao().insertAll(launchModelList)
+                spaceXDatabase.shipsKeysDao().insertAll(keys)
+                spaceXDatabase.shipDao().insertAll(shipModelList)
             }
             return MediatorResult.Success(endOfPaginationReached = isEndOfList)
         } catch (exception: IOException) {
@@ -81,10 +78,11 @@ class LaunchRemoteMediator(
     /**
      * get the last remote key inserted which had the data
      */
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Launch>): LaunchKey? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Ship>): LaunchKey? {
         return state.pages
             .lastOrNull { it.data.isNotEmpty() }
             ?.data?.lastOrNull()
-            ?.let { doggo -> spaceXDatabase.launchedKeysDao().remoteKeysLaunchId(doggo.id) }
+            ?.let { doggo -> spaceXDatabase.shipsKeysDao().remoteKeysLaunchId(doggo.id) }
     }
+
 }

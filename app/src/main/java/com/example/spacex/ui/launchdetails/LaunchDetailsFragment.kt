@@ -32,7 +32,11 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
     }
 
     private fun setLaunchDetails(launch:Launch) {
-        Glide.with(this).load(launch.missionPatch).into(launch_details_image)
+        Glide.with(this)
+            .load(launch.missionPatch)
+            .placeholder(R.drawable.ic_baseline_image_not_supported)
+            .error(R.drawable.ic_baseline_image_not_supported)
+            .into(launch_details_image)
         launch_details_details.text = launch.details
         launch_details_name.text = launch.missionName
         launch_details_wikipedia.text = launch.wikipedia

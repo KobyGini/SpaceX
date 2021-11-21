@@ -1,7 +1,9 @@
 package com.example.spacex.util
 
 import com.example.spacex.data.remote.model.LaunchResponse
+import com.example.spacex.data.remote.model.ShipResponse
 import com.example.spacex.model.Launch
+import com.example.spacex.model.Ship
 
 object Mapper {
 
@@ -13,5 +15,13 @@ object Mapper {
             launchResponse.linksResponse.patch.small,
             launchResponse.linksResponse.wikipedia,
             launchResponse.details)
+    }
+
+    fun shipsResponseToShipsModel(shipResponse: ShipResponse): Ship {
+        return Ship(
+            shipResponse.id,
+            shipResponse.image,
+            shipResponse.legacyName,
+        )
     }
 }

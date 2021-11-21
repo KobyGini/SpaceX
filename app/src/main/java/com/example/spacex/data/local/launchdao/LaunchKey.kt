@@ -1,4 +1,4 @@
-package com.example.spacex.model
+package com.example.spacex.data.local.launchdao
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
