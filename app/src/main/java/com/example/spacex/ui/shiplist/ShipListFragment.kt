@@ -3,24 +3,23 @@ package com.example.spacex.ui.shiplist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spacex.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShipListFragment : Fragment(R.layout.fragment_ship_list){
 
-    private lateinit var shipListViewModel: ShipListViewModel
+    private val shipListViewModel: ShipListViewModel by viewModels()
     private lateinit var launchRecyclerView: RecyclerView
     lateinit var adapter: ShipListPagingAdapter
 
     @OptIn(ExperimentalPagingApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        shipListViewModel =
-            ViewModelProvider(requireActivity()).get(ShipListViewModel::class.java)
 
         setUpRecyclerView(view)
 

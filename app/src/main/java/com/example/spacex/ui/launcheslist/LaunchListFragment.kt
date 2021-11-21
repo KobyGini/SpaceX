@@ -3,29 +3,23 @@ package com.example.spacex.ui.launcheslist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spacex.R
-import com.example.spacex.model.Launch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalPagingApi
+@AndroidEntryPoint
 class LaunchListFragment : Fragment(R.layout.fragment_launch_list)
 {
-    private lateinit var launchedViewModel: LaunchListViewModel
+    private val launchedViewModel: LaunchListViewModel by viewModels()
     private lateinit var launchRecyclerView: RecyclerView
     lateinit var adapter: LaunchPagingAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        launchedViewModel =
-            ViewModelProvider(requireActivity()).get(LaunchListViewModel::class.java)
 
         setUpRecyclerView(view)
 

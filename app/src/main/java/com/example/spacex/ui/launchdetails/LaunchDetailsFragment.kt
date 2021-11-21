@@ -1,25 +1,24 @@
 package com.example.spacex.ui.launchdetails
 
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.paging.ExperimentalPagingApi
 import com.bumptech.glide.Glide
 import com.example.spacex.R
 import com.example.spacex.model.Launch
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_launch_details.*
 
+@AndroidEntryPoint
 class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
-    lateinit var launchDetailsViewModel: LaunchDetailsViewModel
+    private val launchDetailsViewModel: LaunchDetailsViewModel by viewModels()
 
     @OptIn(ExperimentalPagingApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        launchDetailsViewModel = ViewModelProvider(requireActivity()).get(LaunchDetailsViewModel::class.java)
 
         val launchId = arguments
             ?.getString("launchId")
