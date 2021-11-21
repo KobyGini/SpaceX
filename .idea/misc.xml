@@ -9,7 +9,11 @@
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_launch_details.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/layout/fragment_launch_list.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/fragment_ship_details.xml" value="0.11927083333333334" />
+        <entry key="app/src/main/res/layout/fragment_ship_list.xml" value="0.12239583333333333" />
         <entry key="app/src/main/res/layout/row_launch_item.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/row_launch_ship_item.xml" value="0.12239583333333333" />
+        <entry key="app/src/main/res/layout/row_ship_item.xml" value="0.11955420466058764" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.24583333333333332" />
       </map>
     </option>

@@ -12,7 +12,8 @@ import com.bumptech.glide.Glide
 import com.example.spacex.R
 import com.example.spacex.model.Launch
 
-class LaunchPagingAdapter : PagingDataAdapter<Launch, LaunchPagingAdapter.LaunchViewHolder>(LAUNCH_COMPARATOR) {
+class LaunchPagingAdapter
+    : PagingDataAdapter<Launch, LaunchPagingAdapter.LaunchViewHolder>(LAUNCH_COMPARATOR) {
 
     companion object {
         private val LAUNCH_COMPARATOR = object : DiffUtil.ItemCallback<Launch>() {

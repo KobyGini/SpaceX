@@ -1,4 +1,4 @@
-package com.example.spacex.ui.launcheslist
+package com.example.spacex.ui.shiplist
 
 import android.os.Bundle
 import android.view.View
@@ -10,30 +10,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spacex.R
 import dagger.hilt.android.AndroidEntryPoint
 
-@ExperimentalPagingApi
 @AndroidEntryPoint
-class LaunchListFragment : Fragment(R.layout.fragment_launch_list)
-{
-    private val launchedViewModel: LaunchListViewModel by viewModels()
-    private lateinit var launchRecyclerView: RecyclerView
-    lateinit var adapter: LaunchPagingAdapter
+class ShipListFragment : Fragment(R.layout.fragment_ship_list){
 
+    private val shipListViewModel: ShipListViewModel by viewModels()
+    private lateinit var launchRecyclerView: RecyclerView
+    lateinit var adapter: ShipListPagingAdapter
+
+    @OptIn(ExperimentalPagingApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecyclerView(view)
 
-        launchedViewModel.getLaunchesListLive().observe(viewLifecycleOwner, {
+        shipListViewModel.getShipListLive().observe(viewLifecycleOwner, {
             adapter.submitData(lifecycle, it)
         })
     }
 
     private fun setUpRecyclerView(view: View) {
         launchRecyclerView = view.findViewById(R.id.launch_recyclerview)
-        adapter = LaunchPagingAdapter()
+        adapter = ShipListPagingAdapter()
         adapter.setOnLaunchClickListener{
-            val action = LaunchListFragmentDirections.
-            actionLaunchListFragmentToLaunchDetailsFragment(it.id)
+            val action = ShipListFragmentDirections
+                    .actionShipListFragmentToShipDetailsFragment(it.id)
             findNavController().navigate(action)
         }
         launchRecyclerView.adapter = adapter
