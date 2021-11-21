@@ -3,21 +3,22 @@ package com.example.spacex.ui.shipdetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.paging.ExperimentalPagingApi
 import com.bumptech.glide.Glide
 import com.example.spacex.R
 import com.example.spacex.model.Ship
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_ship_details.*
 
+@AndroidEntryPoint
 class ShipDetailsFragment : Fragment(R.layout.fragment_ship_details){
 
-    lateinit var shipDetailsViewModel: ShipDetailsViewModel
+    private val shipDetailsViewModel: ShipDetailsViewModel by viewModels()
 
     @OptIn(ExperimentalPagingApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        shipDetailsViewModel = ViewModelProvider(requireActivity()).get(ShipDetailsViewModel::class.java)
 
         val launchId = arguments
             ?.getString("shipId")

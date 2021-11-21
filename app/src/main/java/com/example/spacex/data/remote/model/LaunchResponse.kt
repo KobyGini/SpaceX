@@ -1,11 +1,9 @@
 package com.example.spacex.data.remote.model
 
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class LaunchResponse(
     @SerializedName("flight_number")
-    @PrimaryKey
     val id:String,
 
     @SerializedName("name")
