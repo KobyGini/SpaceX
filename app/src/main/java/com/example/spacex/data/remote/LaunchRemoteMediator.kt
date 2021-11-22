@@ -48,6 +48,24 @@ class LaunchRemoteMediator(
 
         try {
             val response = spaceXService.getSpaceXLaunched()
+            val set = HashSet<String>()
+
+            response.forEach{
+                if(it.ships != null){
+                    set.addAll(it.ships)
+                }
+            }
+
+            spaceXDatabase.withTransaction {
+
+                val count = spaceXDatabase.shipDao().getShipCountByIds(set.toList())
+                if(count != set.size){
+                    //TODO: HANDLE CASE WHEN SHIPS IS NOT IN DB
+                    println("Ships is not in db")
+                }else{
+
+                }
+            }
 
             val isEndOfList = true
             spaceXDatabase.withTransaction {
@@ -63,8 +81,9 @@ class LaunchRemoteMediator(
                     LaunchKey(id = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
 
-                val launchModelList = response.map {
-                   Mapper.launchResponseToLaunchModel(it)
+                val launchModelList = response.map { launchResponse ->
+                    val ships = launchResponse.ships?.let { ship -> spaceXDatabase.shipDao().getShipByIds(ship.toList()) }
+                   Mapper.launchResponseToLaunchModel(launchResponse,ships)
                 }
 
                 spaceXDatabase.launchedKeysDao().insertAll(keys)
@@ -85,6 +104,6 @@ class LaunchRemoteMediator(
         return state.pages
             .lastOrNull { it.data.isNotEmpty() }
             ?.data?.lastOrNull()
-            ?.let { doggo -> spaceXDatabase.launchedKeysDao().remoteKeysLaunchId(doggo.id) }
+            ?.let { launch -> spaceXDatabase.launchedKeysDao().remoteKeysLaunchId(launch.id) }
     }
 }

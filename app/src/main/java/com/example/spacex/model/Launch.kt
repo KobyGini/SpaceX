@@ -11,5 +11,6 @@ data class Launch  (
     val launchYear:String?,
     val missionPatch:String?,
     val wikipedia :String?,
-    val details:String?
+    val details:String?,
+    val ships:List<Ship>?
 )

@@ -50,7 +50,7 @@ class ShipRemoteMediator(
             spaceXDatabase.withTransaction {
                 //clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
-                    spaceXDatabase.shipsKeysDao().clearLaunchesKeys()
+                    spaceXDatabase.shipsKeysDao().clearShipKeys()
                     spaceXDatabase.shipDao().deleteAllShip()
                 }
 
@@ -82,7 +82,7 @@ class ShipRemoteMediator(
         return state.pages
             .lastOrNull { it.data.isNotEmpty() }
             ?.data?.lastOrNull()
-            ?.let { doggo -> spaceXDatabase.shipsKeysDao().remoteKeysLaunchId(doggo.id) }
+            ?.let { ship -> spaceXDatabase.shipsKeysDao().remoteKeysShipId(ship.shipId) }
     }
 
 }

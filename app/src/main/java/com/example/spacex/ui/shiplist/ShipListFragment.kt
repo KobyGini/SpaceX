@@ -33,7 +33,7 @@ class ShipListFragment : Fragment(R.layout.fragment_ship_list){
         adapter = ShipListPagingAdapter()
         adapter.setOnLaunchClickListener{
             val action = ShipListFragmentDirections
-                    .actionShipListFragmentToShipDetailsFragment(it.id)
+                    .actionShipListFragmentToShipDetailsFragment(it.shipId)
             findNavController().navigate(action)
         }
         launchRecyclerView.adapter = adapter

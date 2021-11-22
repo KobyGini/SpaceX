@@ -41,7 +41,6 @@ android {
 
 dependencies {
 
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha01'
     def roomVersion = '2.4.0-alpha04'
     def okhttpLoggingInterceptorVersion = '4.7.2'
     def navigationComponent  = '2.4.0-alpha01'
@@ -51,6 +50,7 @@ dependencies {
     def fragmentVersion = "1.3.6"
     def mockitoVersion = "4.0.0"
     def pagingVersion = '3.0.1'
+    def workManager = "2.5.0"
 
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -110,5 +110,14 @@ dependencies {
     implementation "androidx.paging:paging-rxjava2-ktx:$pagingVersion"
 
     implementation 'androidx.paging:paging-common-ktx:2.1.2'
+
+    androidTestImplementation "com.google.truth:truth:1.0.1"
+    testImplementation "com.google.truth:truth:1.0.1"
+    implementation "androidx.work:work-runtime-ktx:$workManager"
+    testImplementation "org.hamcrest:hamcrest:2.2"
+
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha01'
+    implementation 'androidx.test.ext:junit-ktx:1.1.3'
+    implementation 'androidx.work:work-testing:2.5.0'
 
 }

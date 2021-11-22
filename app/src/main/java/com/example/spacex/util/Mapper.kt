@@ -7,14 +7,17 @@ import com.example.spacex.model.Ship
 
 object Mapper {
 
-    fun launchResponseToLaunchModel(launchResponse: LaunchResponse):Launch{
+    fun launchResponseToLaunchModel(launchResponse: LaunchResponse,shipList:List<Ship>?):Launch{
        return Launch(
             launchResponse.id,
             launchResponse.missionName,
             launchResponse.launchYear,
             launchResponse.linksResponse.patch.small,
             launchResponse.linksResponse.wikipedia,
-            launchResponse.details)
+            launchResponse.details,
+           shipList
+       )
+
     }
 
     fun shipsResponseToShipsModel(shipResponse: ShipResponse): Ship {

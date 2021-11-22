@@ -23,7 +23,6 @@ data class LaunchResponse(
 
     val details: String,
     val article: String,
-
-
+    val ships:ArrayList<String>?
 
 )

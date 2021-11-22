@@ -20,6 +20,9 @@
         <argument
             android:name="launchId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_launchDetailsFragment_to_shipDetailsFragment"
+            app:destination="@id/shipDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/shipListFragment"

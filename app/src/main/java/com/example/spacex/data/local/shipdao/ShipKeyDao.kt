@@ -13,8 +13,8 @@ interface ShipKeyDao {
     suspend fun insertAll(remoteKey: List<LaunchKey>)
 
     @Query("SELECT * FROM launch_key_table WHERE id = :id")
-    suspend fun remoteKeysLaunchId(id: String): LaunchKey
+    suspend fun remoteKeysShipId(id: String): LaunchKey
 
     @Query("DELETE FROM launch_key_table")
-    suspend fun clearLaunchesKeys()
+    suspend fun clearShipKeys()
 }

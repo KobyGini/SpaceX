@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "ships_table")
 data class Ship(
     @PrimaryKey
-    val id:String,
+    val shipId:String,
     val image:String?,
-    val legacy:String?
+    val legacy:String?,
 )
