@@ -18,7 +18,21 @@ object Mapper {
             launchResponse.details,
             launchResponse.ships
        )
+    }
 
+    fun launchResponsesToLaunchLocals(launches: List<LaunchResponse>): List<LaunchLocal> {
+        val launchesLocal = launches.map {
+            LaunchLocal(
+                it.id,
+                it.missionName,
+                it.launchYear,
+                it.linksResponse.patch.small,
+                it.linksResponse.wikipedia,
+                it.details,
+                it.ships
+            )
+        }
+        return launchesLocal
     }
 
     fun launchLocalToLaunchModel(launchLocal: LaunchLocal,ships : List<Ship>?): Launch {
@@ -33,8 +47,6 @@ object Mapper {
         )
 
     }
-
-
 
     fun shipsResponseToShipsModel(shipResponse: ShipResponse): Ship {
         return Ship(
@@ -55,21 +67,5 @@ object Mapper {
         }
         return ships
     }
-
-    fun launchResponsesToLaunchLocals(launches: List<LaunchResponse>): List<LaunchLocal> {
-        val launchesLocal = launches.map {
-            LaunchLocal(
-                it.id,
-                it.missionName,
-                it.launchYear,
-                it.missionPatch,
-                it.linksResponse.wikipedia,
-                it.details,
-                it.ships
-            )
-        }
-        return launchesLocal
-    }
-
 
 }

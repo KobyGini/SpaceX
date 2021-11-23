@@ -9,6 +9,7 @@ import com.example.spacex.data.remote.LaunchRemoteMediator
 import com.example.spacex.data.remote.ShipRemoteMediator
 import com.example.spacex.data.remote.SpaceXService
 import com.example.spacex.data.local.model.LaunchLocal
+import com.example.spacex.data.remote.model.LaunchResponse
 import com.example.spacex.model.Launch
 import com.example.spacex.model.Ship
 import com.example.spacex.util.Constants.DEFAULT_PAGE_SIZE
@@ -64,32 +65,27 @@ class Repository
         return appDatabase.shipDao().getShipById(id)
     }
 
-    suspend fun updateContents() : List<LaunchLocal>? {
+    suspend fun updateContents() : List<LaunchLocal> {
 
         //Get launches from retrofit service
-        val retrofitLaunches = retrofit.getSpaceXLaunched()
+        val retrofitLaunches : List<LaunchResponse> = retrofit.getSpaceXLaunched()
+
         val retrofitShips = retrofit.getSpaceXShips()
 
         //Map retrofit launches to local launches
-        val launchFromRemote = Mapper.launchResponsesToLaunchLocals(retrofitLaunches)
+        val launchFromRemote : List<LaunchLocal> = Mapper.launchResponsesToLaunchLocals(retrofitLaunches)
         val shipLocal = Mapper.shipsResponseToShipsModel(retrofitShips)
 
         //Get all launches from local db
-        val launchesLocal = appDatabase.launchedDao().getLaunchList()
+        val launchesFromLocal : List<LaunchLocal> = appDatabase.launchedDao().getLaunchList()
+
+        val newLaunch = launchFromRemote.subtract(launchesFromLocal.toSet())
 
         //Insert launches to db
-        appDatabase.launchedDao().insertAll(launchesLocal)
+        appDatabase.launchedDao().insertAll(launchesFromLocal)
         appDatabase.shipDao().insertAll(shipLocal)
 
-        //Compare new launches and old launches and get the new one's
-        return if (launchesLocal.isNotEmpty()) {
-            val newLaunches = launchFromRemote.filter {
-                launchLocal -> !launchesLocal.contains(launchLocal)
-            }
-            newLaunches
-        } else {
-            null
-        }
+        return newLaunch.toList()
     }
 
 }

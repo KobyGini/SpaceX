@@ -1,11 +1,15 @@
 package com.example.spacex.worker
 
+import android.app.PendingIntent
 import android.content.Context
+import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.spacex.MainActivity
 import com.example.spacex.R
 import com.example.spacex.repository.Repository
 import com.example.spacex.util.Constants
@@ -21,9 +25,8 @@ class HiltSchedulerWorker @AssistedInject constructor(
     val repository: Repository
 ) : CoroutineWorker(appContext, workerParams) {
 
-    var builder = NotificationCompat.Builder(appContext, Constants.CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_baseline_image_not_supported)
-
+    private var builder = NotificationCompat.Builder(appContext, Constants.CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_launch_rocket)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
     private val notificationId = 12543
@@ -35,8 +38,19 @@ class HiltSchedulerWorker @AssistedInject constructor(
             val newLaunches = repository.updateContents()
             newLaunches?.let {
                 if (it.isNotEmpty()) {
+
+                    val bundle = Bundle()
+                    bundle.putString("launchId",it.last().id)
+                    val pendingIntent: PendingIntent = NavDeepLinkBuilder(appContext)
+                        .setComponentName(MainActivity::class.java)
+                        .setGraph(R.navigation.nav_graph)
+                        .setDestination(R.id.launchDetailsFragment)
+                        .setArguments(bundle)
+                        .createPendingIntent()
+
                     builder.setContentTitle(it.last().missionName)
                         .setContentText(it.last().details)
+                        .setContentIntent(pendingIntent)
 
                     with(NotificationManagerCompat.from(appContext)) {
                         // notificationId is a unique int for each notification that you must define

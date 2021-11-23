@@ -82,7 +82,6 @@ class LaunchRemoteMediator(
                 }
 
                 val launchModelList = response.map { launchResponse ->
-                    val ships = launchResponse.ships?.let { ship -> spaceXDatabase.shipDao().getShipByIds(ship.toList()) }
                    Mapper.launchResponseToLaunchModel(launchResponse)
                 }
 
