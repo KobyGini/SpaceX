@@ -10,17 +10,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.spacex.R
-import com.example.spacex.model.Launch
+import com.example.spacex.data.local.model.LaunchLocal
 
 class LaunchPagingAdapter
-    : PagingDataAdapter<Launch, LaunchPagingAdapter.LaunchViewHolder>(LAUNCH_COMPARATOR) {
+    : PagingDataAdapter<LaunchLocal, LaunchPagingAdapter.LaunchViewHolder>(LAUNCH_COMPARATOR) {
 
     companion object {
-        private val LAUNCH_COMPARATOR = object : DiffUtil.ItemCallback<Launch>() {
-            override fun areItemsTheSame(oldItem: Launch, newItem: Launch) =
+        private val LAUNCH_COMPARATOR = object : DiffUtil.ItemCallback<LaunchLocal>() {
+            override fun areItemsTheSame(oldItem: LaunchLocal, newItem: LaunchLocal) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Launch, newItem: Launch) =
+            override fun areContentsTheSame(oldItem: LaunchLocal, newItem: LaunchLocal) =
                 oldItem == newItem
         }
     }
@@ -52,8 +52,8 @@ class LaunchPagingAdapter
         val launchImage: ImageView = view.findViewById(R.id.launch_image)
     }
 
-    private lateinit var onLaunchClickListener : (launch : Launch) -> Unit
-    fun setOnLaunchClickListener(listener:(launch : Launch) -> Unit){
+    private lateinit var onLaunchClickListener : (launchLocalModel : LaunchLocal) -> Unit
+    fun setOnLaunchClickListener(listener:(launchLocalModel : LaunchLocal) -> Unit){
         onLaunchClickListener = listener
     }
 }

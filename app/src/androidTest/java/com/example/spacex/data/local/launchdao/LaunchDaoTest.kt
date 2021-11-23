@@ -6,11 +6,11 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.example.spacex.data.local.SpaceXDb
+import com.example.spacex.data.local.model.LaunchLocal
 import com.example.spacex.data.local.shipdao.ShipDao
 import com.example.spacex.getOrAwaitValue
-import com.example.spacex.model.Launch
-import com.example.spacex.model.Ship
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
@@ -46,10 +46,10 @@ class LaunchDaoTest {
 
     @Test
     fun insertLaunchItem() = runBlockingTest {
-        val shipsList = ArrayList<Ship>()
-        shipsList.add(Ship("5ea6ed2d080df4000697c901","","FlatIcon"))
+        val shipsList = listOf("5ea6ed2d080df4000697c901")
 
-        val launch = Launch("1",
+        val launch = LaunchLocal(
+            "1",
             "testName",
             "1992",
             "",
@@ -62,5 +62,60 @@ class LaunchDaoTest {
 
         val allLaunchItem = launchDao.getLaunchesModel().getOrAwaitValue()
         assertThat(allLaunchItem).contains(launch)
+    }
+
+    @Test
+    fun insertAllLaunchItem() = runBlocking {
+        val shipsList = listOf("5ea6ed2d080df4000697c901")
+
+        val launch1 = LaunchLocal(
+            "1",
+            "testName",
+            "1992",
+            "",
+            "",
+            "testDetails",
+            shipsList
+        )
+
+        val launch2 = LaunchLocal(
+            "2",
+            "testName",
+            "1992",
+            "",
+            "",
+            "testDetails",
+            shipsList
+        )
+
+        val launch3 = LaunchLocal(
+            "3",
+            "testName",
+            "1992",
+            "",
+            "",
+            "testDetails",
+            shipsList
+        )
+
+        val launch4 = LaunchLocal(
+            "3",
+            "testName",
+            "1992",
+            "",
+            "",
+            "testDetails",
+            shipsList
+        )
+
+        val launchArray = ArrayList<LaunchLocal>()
+        launchArray.add(launch1)
+        launchArray.add(launch2)
+        launchArray.add(launch3)
+
+        launchDao.insertAll(launchArray)
+        val x = launchDao.insertAll(launchArray)
+
+        assertThat(x).asList().doesNotContain(-1)
     }
 }
