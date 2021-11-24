@@ -3,13 +3,14 @@ package com.example.spacex.ui.launchdetails
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.spacex.R
 import com.example.spacex.model.Ship
-import kotlinx.android.synthetic.main.row_launch_ship_item.view.*
 
 class LaunchShipAdapter: ListAdapter<Ship, LaunchShipAdapter.LaunchShipViewHolder>(SHIP_COMPARATOR) {
 
@@ -41,6 +42,9 @@ class LaunchShipAdapter: ListAdapter<Ship, LaunchShipAdapter.LaunchShipViewHolde
     }
 
     inner class LaunchShipViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val launchShipImage : ImageView = itemView.findViewById(R.id.launch_ship_image)
+        private val launchShipTitle : TextView = itemView.findViewById(R.id.launch_ship_title)
 
         fun bind(position: Int) {
             with(itemView) {
