@@ -18,7 +18,7 @@ class ShipListPagingAdapter
     companion object {
         private val SHIP_COMPARATOR = object : DiffUtil.ItemCallback<Ship>() {
             override fun areItemsTheSame(oldItem: Ship, newItem: Ship) =
-                oldItem.id == newItem.id
+                oldItem.shipId == newItem.shipId
 
             override fun areContentsTheSame(oldItem: Ship, newItem: Ship) =
                 oldItem == newItem

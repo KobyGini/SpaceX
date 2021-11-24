@@ -12,9 +12,6 @@ data class LaunchResponse(
     @SerializedName("launch_year")
     val launchYear:String,
 
-    @SerializedName("mission_patch")
-    val missionPatch:String,
-
     @SerializedName("links")
     val linksResponse:LinksResponse,
 
@@ -23,7 +20,6 @@ data class LaunchResponse(
 
     val details: String,
     val article: String,
-
-
+    val ships:ArrayList<String>?
 
 )
