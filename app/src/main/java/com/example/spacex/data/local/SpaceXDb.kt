@@ -8,13 +8,13 @@ import com.example.spacex.data.local.launchdao.LaunchDao
 import com.example.spacex.data.local.launchdao.LaunchKeyDao
 import com.example.spacex.data.local.shipdao.ShipDao
 import com.example.spacex.data.local.shipdao.ShipKeyDao
-import com.example.spacex.model.Launch
 import com.example.spacex.data.local.launchdao.LaunchKey
+import com.example.spacex.data.local.model.LaunchLocal
 import com.example.spacex.model.Ship
 import com.example.spacex.data.local.shipdao.ShipKey
 
 @Database(entities = [
-    Launch::class,
+    LaunchLocal::class,
     LaunchKey::class,
     Ship::class,
     ShipKey::class],

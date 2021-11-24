@@ -8,9 +8,9 @@ import com.google.gson.reflect.TypeToken
 class DataTypeConvertor {
 
     @TypeConverter
-    fun fromShipsListToJson(list:List<Ship>): String = Gson().toJson(list)
+    fun fromShipsListToJson(list:List<String>): String = Gson().toJson(list)
 
     @TypeConverter
-    fun fromJsonToList(value : String) : List<Ship> = Gson().fromJson(value, object : TypeToken<List<Ship>>() {}.type)
+    fun fromJsonToList(value : String) : List<String> = Gson().fromJson(value, object : TypeToken<List<String>>() {}.type)
 
 }

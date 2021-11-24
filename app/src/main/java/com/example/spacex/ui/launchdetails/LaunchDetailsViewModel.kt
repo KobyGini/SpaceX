@@ -1,14 +1,11 @@
 package com.example.spacex.ui.launchdetails
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.PagingData
 import com.example.spacex.model.Launch
 import com.example.spacex.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,8 +15,13 @@ constructor(
     private val repository: Repository
 ): ViewModel() {
 
+    private var _launch = MutableLiveData<Launch>()
+    val launch : LiveData<Launch> = _launch
+
     @ExperimentalPagingApi
-    fun getLaunchesByIdLive(id:String): LiveData<Launch> {
-        return repository.getLaunchDataById(id).asLiveData()
+    fun getLaunchesByIdLive(id:String){
+        viewModelScope.launch {
+            _launch.value = repository.getLaunchDataById(id)
+        }
     }
 }
