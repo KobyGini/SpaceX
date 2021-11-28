@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import com.example.spacex.model.Ship
-import com.example.spacex.repository.Repository
+import com.example.spacex.repository.DataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class ShipListViewModel
 @Inject
 constructor(
-    private val repository: Repository
+    private val repository: DataRepository
 ): ViewModel() {
 
     @ExperimentalPagingApi

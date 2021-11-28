@@ -1,15 +1,19 @@
 package com.example.spacex.data.local.launchdao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.paging.ExperimentalPagingApi
 import androidx.test.filters.SmallTest
 import com.example.spacex.data.local.SpaceXDb
 import com.example.spacex.data.local.model.LaunchLocal
 import com.example.spacex.data.local.shipdao.ShipDao
 import com.example.spacex.getOrAwaitValue
+import com.example.spacex.launchFragmentInHiltContainer
+import com.example.spacex.ui.launcheslist.LaunchListFragment
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -17,24 +21,32 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Rule
+import org.mockito.Mockito
+import javax.inject.Inject
+import javax.inject.Named
 
-@RunWith(AndroidJUnit4::class)
 @SmallTest
+@HiltAndroidTest
 class LaunchDaoTest {
 
-    private lateinit var database: SpaceXDb
-    private lateinit var launchDao: LaunchDao
-    private lateinit var shipDao: ShipDao
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     var instanceTaskExecutorRule = InstantTaskExecutorRule()
 
+
+    @Inject
+    @Named("test_db")
+    lateinit var database: SpaceXDb
+
+    private lateinit var launchDao: LaunchDao
+    private lateinit var shipDao: ShipDao
+
     @Before
     fun setup(){
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            SpaceXDb::class.java
-        ).allowMainThreadQueries().build()
+        hiltRule.inject()
         launchDao = database.launchedDao()
         shipDao = database.shipDao()
     }
@@ -42,6 +54,15 @@ class LaunchDaoTest {
     @After
     fun teardown(){
         database.close()
+    }
+
+    @ExperimentalPagingApi
+    @Test
+    fun abc(){
+        val navController = Mockito.mock(NavController::class.java)
+        launchFragmentInHiltContainer<LaunchListFragment> {
+            Navigation.setViewNavController(requireView(),navController)
+        }
     }
 
     @Test
@@ -57,6 +78,7 @@ class LaunchDaoTest {
             "testDetails",
             shipsList
         )
+
 
         launchDao.insert(launch)
 

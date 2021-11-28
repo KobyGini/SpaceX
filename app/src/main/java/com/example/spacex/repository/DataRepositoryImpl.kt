@@ -17,18 +17,18 @@ import com.example.spacex.util.Mapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class Repository
+class DataRepositoryImpl
 @Inject constructor(
     private val appDatabase: SpaceXDb,
     private val retrofit: SpaceXService
-) {
+) : DataRepository{
 
-    private fun getDefaultPageConfig(): PagingConfig {
+    override fun getDefaultPageConfig(): PagingConfig {
         return PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = true)
     }
 
     @ExperimentalPagingApi
-    fun getLaunchPagingData(): Flow<PagingData<LaunchLocal>> {
+    override fun getLaunchPagingData(): Flow<PagingData<LaunchLocal>> {
             val pagingSourceFactory = { appDatabase.launchedDao().getLaunchesList() }
             return Pager(
                 config = getDefaultPageConfig(),
@@ -40,7 +40,7 @@ class Repository
             ).flow
     }
 
-    suspend fun getLaunchDataById(id: String): Launch {
+    override suspend fun getLaunchDataById(id: String): Launch {
 
         val launchLocal = appDatabase.launchedDao().getLaunchesById(id)
         val launchShips = launchLocal.shipsIds?.let { appDatabase.shipDao().getShipByIds(it) }
@@ -49,7 +49,7 @@ class Repository
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getShipPagingData(): Flow<PagingData<Ship>> {
+    override fun getShipPagingData(): Flow<PagingData<Ship>> {
         val pagingSourceFactory = { appDatabase.shipDao().getShipList() }
         return Pager(
             config = getDefaultPageConfig(),
@@ -61,11 +61,11 @@ class Repository
         ).flow
     }
 
-    fun getShipDataById(id: String): Flow<Ship> {
+    override fun getShipDataById(id: String): Flow<Ship> {
         return appDatabase.shipDao().getShipById(id)
     }
 
-    suspend fun updateContents() : List<LaunchLocal> {
+    override suspend fun updateContents() : List<LaunchLocal> {
 
         //Get launches from retrofit service
         val retrofitLaunches : List<LaunchResponse> = retrofit.getSpaceXLaunched()

@@ -3,7 +3,7 @@ package com.example.spacex.ui.launchdetails
 import androidx.lifecycle.*
 import androidx.paging.ExperimentalPagingApi
 import com.example.spacex.model.Launch
-import com.example.spacex.repository.Repository
+import com.example.spacex.repository.DataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class LaunchDetailsViewModel
 @Inject
 constructor(
-    private val repository: Repository
+    private val repository: DataRepository
 ): ViewModel() {
 
     private var _launch = MutableLiveData<Launch>()
