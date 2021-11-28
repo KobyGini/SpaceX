@@ -1,0 +1,91 @@
+package com.example.spacex.repository
+
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.example.spacex.data.local.SpaceXDb
+import com.example.spacex.data.remote.LaunchRemoteMediator
+import com.example.spacex.data.remote.ShipRemoteMediator
+import com.example.spacex.data.remote.SpaceXService
+import com.example.spacex.data.local.model.LaunchLocal
+import com.example.spacex.data.remote.model.LaunchResponse
+import com.example.spacex.model.Launch
+import com.example.spacex.model.Ship
+import com.example.spacex.util.Constants.DEFAULT_PAGE_SIZE
+import com.example.spacex.util.Mapper
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+class DataRepositoryImpl
+@Inject constructor(
+    private val appDatabase: SpaceXDb,
+    private val retrofit: SpaceXService
+) : DataRepository{
+
+    override fun getDefaultPageConfig(): PagingConfig {
+        return PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = true)
+    }
+
+    @ExperimentalPagingApi
+    override fun getLaunchPagingData(): Flow<PagingData<LaunchLocal>> {
+            val pagingSourceFactory = { appDatabase.launchedDao().getLaunchesList() }
+            return Pager(
+                config = getDefaultPageConfig(),
+                pagingSourceFactory = pagingSourceFactory,
+                remoteMediator = LaunchRemoteMediator(
+                    retrofit,
+                    appDatabase,
+                )
+            ).flow
+    }
+
+    override suspend fun getLaunchDataById(id: String): Launch {
+
+        val launchLocal = appDatabase.launchedDao().getLaunchesById(id)
+        val launchShips = launchLocal.shipsIds?.let { appDatabase.shipDao().getShipByIds(it) }
+        return Mapper.launchLocalToLaunchModel(launchLocal,launchShips)
+
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getShipPagingData(): Flow<PagingData<Ship>> {
+        val pagingSourceFactory = { appDatabase.shipDao().getShipList() }
+        return Pager(
+            config = getDefaultPageConfig(),
+            pagingSourceFactory = pagingSourceFactory,
+            remoteMediator = ShipRemoteMediator(
+                retrofit,
+                appDatabase,
+            )
+        ).flow
+    }
+
+    override fun getShipDataById(id: String): Flow<Ship> {
+        return appDatabase.shipDao().getShipById(id)
+    }
+
+    override suspend fun updateContents() : List<LaunchLocal> {
+
+        //Get launches from retrofit service
+        val retrofitLaunches : List<LaunchResponse> = retrofit.getSpaceXLaunched()
+
+        val retrofitShips = retrofit.getSpaceXShips()
+
+        //Map retrofit launches to local launches
+        val launchFromRemote : List<LaunchLocal> = Mapper.launchResponsesToLaunchLocals(retrofitLaunches)
+        val shipLocal = Mapper.shipsResponseToShipsModel(retrofitShips)
+
+        //Get all launches from local db
+        val launchesFromLocal : List<LaunchLocal> = appDatabase.launchedDao().getLaunchList()
+
+        val newLaunch = launchFromRemote.subtract(launchesFromLocal.toSet())
+
+        //Insert launches to db
+        appDatabase.launchedDao().insertAll(launchesFromLocal)
+        appDatabase.shipDao().insertAll(shipLocal)
+
+        return newLaunch.toList()
+    }
+
+}
