@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.spacex.repository.Repository
+import com.example.spacex.repository.DataRepository
 import com.example.spacex.util.BundleConstants.LAUNCH_DETAILS
 import com.example.spacex.util.BundleConstants.LAUNCH_ID
 import com.example.spacex.util.BundleConstants.LAUNCH_NAME
@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 class HiltSchedulerWorker @AssistedInject constructor(
     @Assisted val appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    val repository: Repository
+    val repository: DataRepository
 ) : CoroutineWorker(appContext, workerParams) {
 
     private val notificationHelper = NotificationHelper()

@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.spacex.data.local.SpaceXDb
 import com.example.spacex.data.remote.SpaceXService
-import com.example.spacex.repository.Repository
+import com.example.spacex.repository.DataRepository
+import com.example.spacex.repository.DataRepositoryImpl
+import com.example.spacex.ui.launcheslist.LaunchPagingAdapter
 import com.example.spacex.util.Constants.APP_DATABASE
 import com.example.spacex.util.Constants.SPACEX_BASE_URL
 import dagger.Module
@@ -81,7 +83,10 @@ object AppModule {
     fun provideRepository(
         appDatabase: SpaceXDb,
         myAppService: SpaceXService
-    ): Repository {
-        return Repository(appDatabase, myAppService)
+    ): DataRepository {
+        return DataRepositoryImpl(appDatabase, myAppService)
     }
+
+    @Provides
+    fun provideAdapter() = LaunchPagingAdapter()
 }
