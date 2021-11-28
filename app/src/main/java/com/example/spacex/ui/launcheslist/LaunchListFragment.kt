@@ -16,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class LaunchListFragment : Fragment()
 {
     private val launchedViewModel: LaunchListViewModel by viewModels()
-
     private val adapter = LaunchPagingAdapter()
 
     private var _binding: FragmentLaunchListBinding? = null

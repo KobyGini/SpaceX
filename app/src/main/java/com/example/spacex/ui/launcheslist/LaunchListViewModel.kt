@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import com.example.spacex.data.local.model.LaunchLocal
-import com.example.spacex.repository.DataRepository
+import com.example.spacex.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class LaunchListViewModel
 @Inject
 constructor(
-    private val repository: DataRepository
+    private val repository: Repository
 ):ViewModel() {
 
     @ExperimentalPagingApi

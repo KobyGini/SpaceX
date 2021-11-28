@@ -12,7 +12,7 @@ interface LaunchDao {
     suspend fun insertAll(launchLocalModels: List<LaunchLocal>): LongArray
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(launchLocalModel: LaunchLocal)
+    suspend fun insert(launchLocalModel: LaunchLocal)
 
     @Query("DELETE FROM launch_table")
     suspend fun deleteLaunches()
