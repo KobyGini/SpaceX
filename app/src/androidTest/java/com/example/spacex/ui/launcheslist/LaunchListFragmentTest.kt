@@ -23,47 +23,41 @@ import org.mockito.Mockito.mock
 @MediumTest
 @HiltAndroidTest
 @OptIn(ExperimentalPagingApi::class)
-class LaunchListFragmentTest{
+class LaunchListFragmentTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
     @Before
-    fun setup(){
+    fun setup() {
         hiltRule.inject()
     }
 
 
     @Test
-    fun checkFragmentRecyclerViewVisibility(){
+    fun checkFragmentRecyclerViewVisibility() {
         val navController = mock(NavController::class.java)
         launchFragmentInHiltContainer<LaunchListFragment> {
-            Navigation.setViewNavController(requireView(),navController)
+            Navigation.setViewNavController(requireView(), navController)
         }
 
         onView(withId(R.id.launch_list_recyclerview)).check(matches(isDisplayed()))
     }
 
     @Test
-    fun clickLaunchItemNavigateLaunchDetails(){
+    fun clickLaunchItemNavigateLaunchDetails() {
         val navController = mock(NavController::class.java)
         launchFragmentInHiltContainer<LaunchListFragment> {
-            Navigation.setViewNavController(requireView(),navController)
+            Navigation.setViewNavController(requireView(), navController)
         }
 
         onView(withId(R.id.launch_list_recyclerview))
             .perform(
-                actionOnItemAtPosition<LaunchPagingAdapter.LaunchViewHolder>(0,click())
+                actionOnItemAtPosition<LaunchPagingAdapter.LaunchViewHolder>(0, click())
             )
 
-        onView(withText("FalconSat")).check(matches(isDisplayed()))
-
-//        Mockito.verify(navController).navigate(
-//            LaunchListFragmentDirections.actionLaunchListFragmentToLaunchDetailsFragment("1")
-//        )
-
-//        onView(withId(R.id.launch_details_name)).check(matches(withText("FalconSet")))
+        Mockito.verify(navController).navigate(
+            LaunchListFragmentDirections.actionLaunchListFragmentToLaunchDetailsFragment("1")
+        )
     }
-
-
 }

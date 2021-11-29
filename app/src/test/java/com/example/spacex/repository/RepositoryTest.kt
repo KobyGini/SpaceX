@@ -30,36 +30,6 @@ class RepositoryTest {
     }
 
     @Test
-    fun checkRemoveFromListContents(){
-        val ships = listOf("4324239485234")
-        val launchLocal = ArrayList<LaunchLocal>()
-
-        launchLocal.add(LaunchLocal("1","","","","","",ships))
-        launchLocal.add(LaunchLocal("2","","","","","",ships))
-        launchLocal.add(LaunchLocal("3","","","","","",ships))
-        launchLocal.add(LaunchLocal("4","","","","","",ships))
-        launchLocal.add(LaunchLocal("5","","","","","",ships))
-        launchLocal.add(LaunchLocal("6","","","","","",ships))
-
-        val launchLocalIds = launchLocal.map {
-            it.id
-        }
-
-        val launchRemoveList = ArrayList<LaunchLocal>()
-        launchRemoveList.add(LaunchLocal("1","","","","","",ships))
-
-        val launchRemoveIds = launchRemoveList.map {
-            it.id
-        }
-
-        val isChanged = launchLocalIds.toHashSet().remove(launchRemoveIds[0])
-
-        Truth.assertThat(isChanged).isTrue()
-        Truth.assertThat(launchLocalIds.size).isEqualTo(5)
-
-    }
-
-    @Test
     fun removeElementFromList(){
         val mutableList: MutableList<String> = mutableListOf("1", "4", "9", "16", "25")
         val isChanged = mutableList.remove("9")
